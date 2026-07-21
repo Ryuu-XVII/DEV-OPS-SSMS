@@ -1,0 +1,21 @@
+trigger:
+  branches:
+    include:
+      - master
+
+pr:
+  branches:
+    include:
+      - master
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+  - checkout: self
+
+  - powershell: |
+      Write-Host "Azure DevOps pipeline triggered for branch $(Build.SourceBranchName)"
+      Write-Host 'Repository contents:'
+      Get-ChildItem -Path . -Recurse -Force | Sort-Object FullName | ForEach-Object { Write-Host $_.FullName }
+    displayName: 'Verify repository checkout'
